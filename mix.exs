@@ -17,7 +17,8 @@ defmodule T2ServerQuery.MixProject do
       docs: [
         main:  "T2ServerQuery",
         extras: ["README.md"]
-      ]
+      ],
+      package: package()
     ]
   end
 
@@ -35,4 +36,12 @@ defmodule T2ServerQuery.MixProject do
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/amineo/t2_server_query_elixir"}
+    ]
+  end
+
 end
