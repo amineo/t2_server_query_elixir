@@ -1,8 +1,7 @@
 defmodule T2ServerQueryTest do
   use ExUnit.Case, async: true
-  alias T2ServerQuery.UdpServer
 
-  doctest T2ServerQuery
+  # doctest T2ServerQuery
 
 
   test "Gracefully handle timeouts and unreachable servers" do
@@ -10,7 +9,7 @@ defmodule T2ServerQueryTest do
     timeout = 250
 
     port = Enum.random(28_000..28_999)
-    {:error, result} = T2ServerQuery.UdpServer.query("127.0.0.1", port, timeout)
+    {:error, result} = T2ServerQuery.query("127.0.0.1", port, timeout)
       |> T2ServerQuery.log
 
     assert result.server_status      == :offline
@@ -21,9 +20,9 @@ defmodule T2ServerQueryTest do
 
   test "Live test a number of Tribes 2 servers" do
     tasks = [
-      Task.async(T2ServerQuery.UdpServer, :query, ["35.239.88.241"]),
-      Task.async(T2ServerQuery.UdpServer, :query, ["97.99.172.12", 28_001]),
-      Task.async(T2ServerQuery.UdpServer, :query, ["67.222.138.13"])
+      Task.async(T2ServerQuery, :query, ["35.239.88.241"]),
+      Task.async(T2ServerQuery, :query, ["97.99.172.12", 28_001]),
+      Task.async(T2ServerQuery, :query, ["67.222.138.13"])
     ]
 
     server_list = Task.yield_many(tasks)
@@ -50,28 +49,28 @@ end
 
 
 
-#qry_test = T2ServerQuery.UdpServer.query("127.0.0.1")
+#qry_test = T2ServerQuery.query("127.0.0.1")
 #IO.inspect qry_test
 
-#qry_test2 = T2ServerQuery.UdpServer.query("35.239.88.241")
+#qry_test2 = T2ServerQuery.query("35.239.88.241")
 #IO.inspect qry_test2
 
 
 # tasks = [
-#   Task.async(T2ServerQuery.UdpServer, :query, ["127.0.0.1"]),
-#   Task.async(T2ServerQuery.UdpServer, :query, ["35.239.88.241"]),
-#   Task.async(T2ServerQuery.UdpServer, :query, ["97.99.172.12", 28001]),
-#   Task.async(T2ServerQuery.UdpServer, :query, ["67.222.138.13"]),
-#   Task.async(T2ServerQuery.UdpServer, :query, ["91.55.51.94"]),
+#   Task.async(T2ServerQuery, :query, ["127.0.0.1"]),
+#   Task.async(T2ServerQuery, :query, ["35.239.88.241"]),
+#   Task.async(T2ServerQuery, :query, ["97.99.172.12", 28001]),
+#   Task.async(T2ServerQuery, :query, ["67.222.138.13"]),
+#   Task.async(T2ServerQuery, :query, ["91.55.51.94"]),
 # ]
 
 # IO.inspect Task.yield_many(tasks)
 
-# task0 = Task.async(T2ServerQuery.UdpServer, :query, ["127.0.0.1"])
-# task1 = Task.async(T2ServerQuery.UdpServer, :query, ["35.239.88.241"])
-# task2 = Task.async(T2ServerQuery.UdpServer, :query, ["97.99.172.12", 28001])
-# task3 = Task.async(T2ServerQuery.UdpServer, :query, ["67.222.138.13"])
-# task4 = Task.async(T2ServerQuery.UdpServer, :query, ["91.55.51.94"])
+# task0 = Task.async(T2ServerQuery, :query, ["127.0.0.1"])
+# task1 = Task.async(T2ServerQuery, :query, ["35.239.88.241"])
+# task2 = Task.async(T2ServerQuery, :query, ["97.99.172.12", 28001])
+# task3 = Task.async(T2ServerQuery, :query, ["67.222.138.13"])
+# task4 = Task.async(T2ServerQuery, :query, ["91.55.51.94"])
 # # res4 = Task.await(task4)
 # # IO.inspect res4.server_name
 
@@ -87,7 +86,7 @@ end
 # IO.inspect res3.server_name
 # IO.inspect res4.server_name
 
-# T2ServerQuery.UdpServer.query("35.239.88.241")
-# T2ServerQuery.UdpServer.query("97.99.172.12", 28001)
-# T2ServerQuery.UdpServer.query("67.222.138.13")
-# T2ServerQuery.UdpServer.query("91.55.51.94")
+# T2ServerQuery.query("35.239.88.241")
+# T2ServerQuery.query("97.99.172.12", 28001)
+# T2ServerQuery.query("67.222.138.13")
+# T2ServerQuery.query("91.55.51.94")

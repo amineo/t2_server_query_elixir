@@ -1,11 +1,58 @@
 defmodule T2ServerQuery.PacketParser do
   @moduledoc """
-    Documentation for `T2ServerQuery.PacketParser`.
+  This module does the heavy lifting with parsing a Tribes 2 query response packet.
+
+  ## UDP Packet Anatomy
+
+  ### Info Packet
+      <<
+        _header     :: size(192),
+        server_name :: bitstring
+      >>
+
+  ### Status Packet
+      <<
+        _header :: size(48),
+
+        game_type_length    :: little-integer,
+        game_type           :: binary-size(game_type_length),
+        mission_type_length :: little-integer,
+        mission_type        :: binary-size(mission_type_length),
+        map_name_length     :: little-integer,
+        map_name            :: binary-size(map_name_length),
+
+        _skip_a :: size(8),
+
+        player_count     :: little-integer,
+        max_player_count :: little-integer,
+        bot_count        :: little-integer,
+
+        _skip_b :: size(16),
+
+        server_description_length :: little-integer,
+        server_description        :: binary-size(server_description_length),
+
+        _skip_c :: size(16),
+
+        team_count :: binary-size(1),
+
+        rest :: bitstring
+      >>
+
+  Notice the `_skip_(a|b|c)` mappings. I havn't quite figured out what they refer to yet but they don't seem that important. They likely relate to a few server flags like `tournament_mode`, `cpu_speed`, `is_linux`.
+
+  Refer to `T2ServerQuery.QueryResult` for what a typical struct would look like.
+
+
   """
 
   alias T2ServerQuery.QueryResult
 
+  @doc """
+    This function expects both an `info` and `status` packet to be passed in that is in a `Base.encode16` format.
+    Normally you wouldn't need to run this function manually since it's called in a pipeline from the main `T2ServerQuery.query`
 
+  """
   def init({:error, host}, _) do
     results = %QueryResult{}
 
