@@ -4,7 +4,7 @@ defmodule T2ServerQuery.MixProject do
   def project do
     [
       app: :t2_server_query,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -32,7 +32,7 @@ defmodule T2ServerQuery.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, "~> 1.5"},
+      {:credo, "~> 1.5", only: :dev, runtime: false},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
