@@ -24,11 +24,8 @@ defmodule T2ServerQueryTest do
       Task.async(T2ServerQuery, :query, ["67.222.138.13"])
     ]
 
-    server_list = Task.yield_many(tasks)
-      |> Enum.map(fn {task, result} ->
-      #|> Enum.with_index(fn {task, result}, index ->
-      # :ok should be returned for each task and result
-      # assert {task, {:ok, result}} == Enum.at(server_list, index)
+    Task.yield_many(tasks)
+      |> Enum.map(fn {_task, result} ->
         test_server_status(result)
       end)
 

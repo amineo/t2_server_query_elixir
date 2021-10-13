@@ -9,7 +9,7 @@ defmodule T2ServerQuery do
   ## Installation
       def deps do
         [
-          {:t2_server_query, "~> 0.1.0"}
+          {:t2_server_query, "~> 0.1.2"}
         ]
       end
 
@@ -99,7 +99,7 @@ defmodule T2ServerQuery do
   end
 
 
-  defp handle_udp_response({:ok, {_ip, _port, packet}}, _server_ip, _port) do
+  defp handle_udp_response({:ok, {_ip, port, packet}}, _server_ip, port) do
     packet
       |> Base.encode16
   end
