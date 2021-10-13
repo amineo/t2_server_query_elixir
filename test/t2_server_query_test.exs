@@ -20,8 +20,7 @@ defmodule T2ServerQueryTest do
 
   test "Live test a number of Tribes 2 servers" do
     tasks = [
-      Task.async(T2ServerQuery, :query, ["35.239.88.241"]),
-      Task.async(T2ServerQuery, :query, ["97.99.172.12", 28_001]),
+      Task.async(T2ServerQuery, :query, ["35.239.88.241", 28_000]),
       Task.async(T2ServerQuery, :query, ["67.222.138.13"])
     ]
 
