@@ -70,6 +70,7 @@ defmodule T2ServerQuery do
       }}
 
   """
+  @spec query(String.t(), integer(), integer()) :: {atom(), %T2ServerQuery.QueryResult{}}
   def query(server_ip, port \\ 28_000, timeout \\ 3_500) do
     Logger.info "query: #{server_ip}"
     case is_valid_ip?(server_ip) do
@@ -78,9 +79,8 @@ defmodule T2ServerQuery do
     end
   end
 
-
+  @spec handle_query(String.t(), integer(), integer()) :: {atom(), %T2ServerQuery.QueryResult{}}
   defp handle_query(server_ip, port, timeout) do
-
     {:ok, socket} = :gen_udp.open(0, [:binary, {:active, false}])
 
     # Convert a string ip from "127.0.0.1" into {127, 0, 0, 1}
@@ -106,7 +106,7 @@ defmodule T2ServerQuery do
     PacketParser.init(hex_info_packet, hex_status_packet)
   end
 
-
+  @spec is_valid_ip?(any()) :: boolean()
   defp is_valid_ip?(nil), do: false
   defp is_valid_ip?(server_ip) do
     case Regex.match?(~r/^([1-2]?[0-9]{1,2}\.){3}([1-2]?[0-9]{1,2})$/, server_ip) do
@@ -116,6 +116,7 @@ defmodule T2ServerQuery do
   end
 
 
+  @spec handle_udp_response(tuple(), String.t(), integer()) :: tuple() | String.t()
   defp handle_udp_response({:ok, {_ip, port, packet}}, _server_ip, port) do
     packet
       |> Base.encode16

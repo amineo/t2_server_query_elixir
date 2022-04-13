@@ -43,8 +43,8 @@ defmodule T2ServerQuery.PacketParser do
 
   Refer to `T2ServerQuery.QueryResult` for what a typical struct would look like.
 
-
   """
+
 
   alias T2ServerQuery.QueryResult
 
@@ -53,6 +53,7 @@ defmodule T2ServerQuery.PacketParser do
     Normally you wouldn't need to run this function manually since it's called in a pipeline from the main `T2ServerQuery.query`
 
   """
+  @spec init({:error, String.t()}, any()) :: {:error, map()}
   def init({:error, host}, _) do
     results = %QueryResult{}
 
@@ -65,6 +66,7 @@ defmodule T2ServerQuery.PacketParser do
     }
   end
 
+  @spec init(binary(), binary()) :: {:ok, %QueryResult{}}
   def init(info_packet, status_packet) when is_binary(info_packet) and is_binary(status_packet) do
 
     info_results = info_packet
@@ -81,6 +83,7 @@ defmodule T2ServerQuery.PacketParser do
     pack_results({:ok, status_results, info_results})
   end
 
+  @spec pack_results({:ok, map(), map()}) :: {:ok, %QueryResult{}}
   defp pack_results({:ok, status_results, info_results}) do
     results = %QueryResult{}
 
