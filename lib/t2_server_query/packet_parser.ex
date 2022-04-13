@@ -66,7 +66,7 @@ defmodule T2ServerQuery.PacketParser do
     }
   end
 
-  @spec init(binary(), binary()) :: {:ok, %QueryResult{}}
+  @spec init(binary(), binary()) :: {:ok, QueryResult.t()}
   def init(info_packet, status_packet) when is_binary(info_packet) and is_binary(status_packet) do
 
     info_results = info_packet
@@ -83,7 +83,7 @@ defmodule T2ServerQuery.PacketParser do
     pack_results({:ok, status_results, info_results})
   end
 
-  @spec pack_results({:ok, map(), map()}) :: {:ok, %QueryResult{}}
+  @spec pack_results({:ok, map(), map()}) :: {:ok, QueryResult.t()}
   defp pack_results({:ok, status_results, info_results}) do
     results = %QueryResult{}
 

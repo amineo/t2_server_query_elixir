@@ -70,7 +70,7 @@ defmodule T2ServerQuery do
       }}
 
   """
-  @spec query(String.t(), integer(), integer()) :: {atom(), %T2ServerQuery.QueryResult{}}
+  @spec query(String.t(), integer(), integer()) :: {atom(), T2ServerQuery.QueryResult.t()}
   def query(server_ip, port \\ 28_000, timeout \\ 3_500) do
     Logger.info "query: #{server_ip}"
     case is_valid_ip?(server_ip) do
@@ -79,7 +79,7 @@ defmodule T2ServerQuery do
     end
   end
 
-  @spec handle_query(String.t(), integer(), integer()) :: {atom(), %T2ServerQuery.QueryResult{}}
+  @spec handle_query(String.t(), integer(), integer()) :: {atom(), T2ServerQuery.QueryResult.t()}
   defp handle_query(server_ip, port, timeout) do
     {:ok, socket} = :gen_udp.open(0, [:binary, {:active, false}])
 

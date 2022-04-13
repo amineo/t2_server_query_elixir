@@ -48,6 +48,21 @@ defmodule T2ServerQuery.QueryResult do
       }
   """
 
+  @type t() :: %__MODULE__{
+    server_status:      atom(),
+    server_name:        String.t(),
+    game_type:          String.t(),
+    mission_type:       String.t(),
+    map_name:           String.t(),
+    player_count:      integer(),
+    max_player_count:  integer(),
+    bot_count:         integer(),
+    server_description: String.t(),
+    team_count:        integer(),
+    teams:              list(),
+    players:            list()
+  }
+
   defstruct [
     server_status:      :offline,
     server_name:        "",
