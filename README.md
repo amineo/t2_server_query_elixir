@@ -13,7 +13,7 @@ The package can be installed by adding `t2_server_query` to your list of depende
 ```elixir
 def deps do
   [
-    {:t2_server_query, "~> 0.1.2"}
+    {:t2_server_query, "~> 0.1.3"}
   ]
 end
 ```

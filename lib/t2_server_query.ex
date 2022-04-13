@@ -9,7 +9,7 @@ defmodule T2ServerQuery do
   ## Installation
       def deps do
         [
-          {:t2_server_query, "~> 0.1.2"}
+          {:t2_server_query, "~> 0.1.3"}
         ]
       end
 
