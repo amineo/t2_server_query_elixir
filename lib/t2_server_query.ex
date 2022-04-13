@@ -72,6 +72,14 @@ defmodule T2ServerQuery do
   """
   def query(server_ip, port \\ 28_000, timeout \\ 3_500) do
     Logger.info "query: #{server_ip}"
+    case is_valid_ip?(server_ip) do
+      true -> handle_query(server_ip, port, timeout)
+      false ->  PacketParser.init({:error, "#{server_ip} - Invalid IP" }, nil)
+    end
+  end
+
+
+  defp handle_query(server_ip, port, timeout) do
 
     {:ok, socket} = :gen_udp.open(0, [:binary, {:active, false}])
 
@@ -96,6 +104,15 @@ defmodule T2ServerQuery do
 
     # Combine and parse results
     PacketParser.init(hex_info_packet, hex_status_packet)
+  end
+
+
+  defp is_valid_ip?(nil), do: false
+  defp is_valid_ip?(server_ip) do
+    case Regex.match?(~r/^([1-2]?[0-9]{1,2}\.){3}([1-2]?[0-9]{1,2})$/, server_ip) do
+      false -> false
+      true -> true
+    end
   end
 
 

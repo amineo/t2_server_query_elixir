@@ -21,27 +21,32 @@ defmodule T2ServerQueryTest do
   test "Live test a number of Tribes 2 servers" do
     tasks = [
       Task.async(T2ServerQuery, :query, ["35.239.88.241", 28_000]),
-      Task.async(T2ServerQuery, :query, ["67.222.138.13"])
+      Task.async(T2ServerQuery, :query, ["148.170.171.67"])
     ]
 
     Task.yield_many(tasks)
-      |> Enum.map(fn {_task, result} ->
-        test_server_status(result)
+      |> Enum.each(fn {_task, result} ->
+        case result do
+          {:ok, _ }   -> assert true
+          {:error, _} -> assert false
+          _         -> assert false
+        end
       end)
-
   end
 
-  defp test_server_status({:ok, _}) do
-    assert true
+
+  test "Invalid IP" do
+    {:error, result} = T2ServerQuery.query("fake.ip")
+      |> T2ServerQuery.log
+
+    assert result.server_status      == :offline
+    assert result.server_name        == "fake.ip - Invalid IP"
   end
-  defp test_server_status({:error, _}) do
-    assert false
-  end
-  defp test_server_status(nil) do
-    assert false
-  end
+
 
 end
+
+
 
 
 
